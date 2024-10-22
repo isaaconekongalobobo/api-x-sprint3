@@ -1,9 +1,16 @@
 const express  = require ('express')
+const app = express ()
+
+// Middleware pour parser les données du formulaire
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const cors = require ('cors')
 const { HomeController } = require('./controllers/homeController')
-const { ImageUploadController } = require('./controllers/imageUploadController')
 const multer = require ('multer')
 const path = require ('path')
+
+
 
 // Configuration de Multer
 const storage = multer.diskStorage({
@@ -16,7 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer ({storage})
 
-const app = express ()
+
 app.use (cors ())
 require ('dotenv').config ()
 const port = process.env.PORT || 5000
@@ -24,8 +31,7 @@ const port = process.env.PORT || 5000
 app.get ('/', (req, res) => HomeController(req, res))
 app.post ('/uploads/image', upload.single ('image'), (req, res) => {
     console.log("Requette pour l'upload");
-    console.log(req.body.image);
-    
+    console.log(req.file);
 })
 
 app.listen (port, () => {
