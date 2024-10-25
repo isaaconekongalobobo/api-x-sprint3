@@ -5,6 +5,8 @@ const cors = require ('cors')
 const { HomeController } = require('./controllers/homeController')
 const multer = require ('multer')
 const path = require ('path')
+const { GetTweetController } = require('./controllers/getTweetController')
+const { GetUserProfileController } = require('./controllers/getUserProfileController')
 
 // Middleware pour parser les données du formulaire
 app.use(express.urlencoded({ extended: true }));
@@ -32,8 +34,8 @@ require ('dotenv').config ()
 const port = process.env.PORT || 5000
 
 app.get ('/', (req, res) => HomeController(req, res))
-app.post ('/uploads/image', upload.single ('image'), (req, res) => {
-    if (req.file) {
+app.post ('/create/tweet', upload.single ('image'), (req, res) => {
+     if (req.file) {
         // Je construit l'url de l'image, qui la rendra accessible de partout
         const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
         // Je renvoie l'url genere a mon client react
@@ -41,6 +43,11 @@ app.post ('/uploads/image', upload.single ('image'), (req, res) => {
     } else {
         res.status (400).send ('Aucune image recus')
     }
+})
+app.get ('/getTweets', (req, res) => GetTweetController (req, res))
+
+app.post ('/getUser', (req, res) => {
+    GetUserProfileController(req,res)
 })
 
 app.listen (port, () => {
