@@ -313,6 +313,10 @@ const data = [
     },
 ];
 
+const pushTweet = (tweet) => {
+  data.push (tweet)
+}
+
 module.exports = {
-    data
+    data, pushTweet
 }
