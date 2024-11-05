@@ -9,6 +9,7 @@ const { GetTweetController } = require('./controllers/getTweetController')
 const { GetUserProfileController } = require('./controllers/getUserProfileController')
 // Importation du tableau des donnees
 const { data, pushTweet } = require('./data')
+const { GetUserTweetsController } = require('./controllers/getUserTweets')
 
 // Middleware pour parser les données du formulaire
 app.use(express.urlencoded({ extended: true }));
@@ -67,8 +68,13 @@ app.post ('/create/tweet', upload.single ('image'), (req, res) => {
 })
 app.get ('/getTweets', (req, res) => GetTweetController (req, res))
 
-app.post ('/getUser', (req, res) => {
+app.get ('/getUser/:userName', (req, res) => {
     GetUserProfileController(req,res)
+})
+
+app.get ('/getUser/:userName/tweets', (req,res) => {
+    GetUserTweetsController (req, res)
+    console.log(req.params);
 })
 
 app.listen (port, () => {
