@@ -10,6 +10,7 @@ const { GetUserProfileController } = require('./controllers/getUserProfileContro
 // Importation du tableau des donnees
 const { data, pushTweet } = require('./data')
 const { GetUserTweetsController } = require('./controllers/getUserTweets')
+const { GetAllDataController } = require('./controllers/getAllDataController')
 
 // Middleware pour parser les données du formulaire
 app.use(express.urlencoded({ extended: true }));
@@ -37,6 +38,9 @@ require ('dotenv').config ()
 const port = process.env.PORT || 5000
 
 app.get ('/', (req, res) => HomeController(req, res))
+app.get ('/allData', (req, res) => {
+    GetAllDataController (req, res)
+})
 app.post ('/create/tweet', upload.single ('image'), (req, res) => {
     // Recuperation des donnees dans le corps de la requette
     const {content, userId} = req.body
